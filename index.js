@@ -3,8 +3,7 @@ var path = require('path');
 var bodyParser  = require('body-parser');
 var fs = require("fs-extra");
 var app = express();
-Db = require('mongodb').Db,
-  MongoClient = require('mongodb').MongoClient;
+MongoClient = require('mongodb').MongoClient;
 
 //--------------------------------Connect to mongodb using Mongoose--------------------------------//
 var mongoose = require('mongoose');
@@ -27,48 +26,6 @@ app.set('port', port);
 config = {
   mongoUrl:"mongodb://<user>:<pass>@ds061747.mongolab.com:61747/<db name>"
 };
-//--------------------------------Connect to mongodb using Mongoose--------------------------------//
-//The server option auto_reconnect is defaulted to true
-var options = {
-    db: { native_parser : true , upsert: true},
-    server: { poolSize: 5 }
-};
-
-var connect = function () 
-{
-  console.log('Mongoose: Trying to establish connection.');
-  //For long running applictions it is often prudent to enable keepAlive. 
-  //Without it, after some period of time you may start to see "connection closed" errors for what seems like no reason.
-  //options.server.socketOptions = options.replset.socketOptions = { keepAlive : true };
-  options.server.socketOptions = { keepAlive : true, connectTimeoutMS : 30000 };
-  
-  mongoose.connect(config.mongoUrl, options);
-};
-
-// make global connection variable
-db = mongoose.connection;
-
-// create event handlers for Mongoose
-db.on('error', function (err)
-{
-  console.log('Mongoose: Error: ' + err);
-});
-
-db.on('open', function() 
-{
-  console.log('Mongoose: Connection established.');
-});
-
-db.on('disconnected', function()
-{
-  console.log('Mongoose: Connection stopped, recconect.');
-  connect();
-});
-
-
-// connect to MongoLab using Mongoose
-//connect();
-//--------------------------------Connect to mongodb using Mongoose--------------------------------//
 
 app.listen(app.get('port'), function() 
 {
@@ -97,7 +54,7 @@ app.get('/mongodb', function(req, res)
     }
 
     // get sessions collection 
-    var collection = db.collection('test');              
+    var collection = db.collection('users');              
     collection.find( { } ).toArray(function (err, docs)
     { 
       // failure while connecting to sessions collection
