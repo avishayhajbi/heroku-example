@@ -24,7 +24,7 @@ var port = process.env.PORT || 8080;
 app.set('port', port);
 
 config = {
-  mongoUrl:"mongodb://<user>:<pass>@ds061747.mongolab.com:61747/<db name>"
+  mongoUrl:"mongodb://avishay:123456@ds031962.mongolab.com:31962/heroku_app36873934"
 };
 
 app.listen(app.get('port'), function() 
